@@ -1,6 +1,7 @@
 import os
+
 from pydantic import BaseModel, Field
-from typing import Dict
+
 
 class RAGConfig(BaseModel):
     milvus_uri: str = Field(default=os.getenv("MILVUS_URI"), description="Milvus URI")

@@ -1,10 +1,9 @@
-from abc import ABC
-
 from pymilvus import MilvusClient
-from vanna.milvus import Milvus_VectorStore
-from vanna.openai import OpenAI_Chat
+from ..vanna.milvus import Milvus_VectorStore
+from ..vanna.openai import OpenAI_Chat
+
 from ai_rag_system_v1.utils import settings
-from ai_rag_system_v1.rag.base_rag import RAG
+
 
 class DQuestionMilvus(Milvus_VectorStore, OpenAI_Chat):
     def __init__(self, config=None):
@@ -59,6 +58,19 @@ class MySQLDatabaseRAG(DQuestionMilvus):
         df_ddl = self.run_sql(f"SELECT * FROM INFORMATION_SCHEMA.COLUMNS where table_schema = '{settings.configuration.mysql_db}'")
         plan = self.get_training_plan_mysql(df_ddl)
         self.train(plan=plan)
+
+
+
+class StarrocksDatabaseRAG(DQuestionMilvus):
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
+        pass
+
+    async def load_data(self):
+        pass
+
+    async  def create_index(self):
+        pass
 
 if __name__ == "__main__":
     d = SQLiteDatabaseRAG()

@@ -1,7 +1,6 @@
 # import os.path
 
-from fastapi import FastAPI, UploadFile, Form
-from chainlit.utils import mount_chainlit
+from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 from rag.database_rag import DatabaseRAG

@@ -1,3 +1,4 @@
+import importlib.metadata
 import json
 import logging
 import os
@@ -5,7 +6,6 @@ import sys
 import uuid
 from abc import ABC, abstractmethod
 from functools import wraps
-import importlib.metadata
 
 import flask
 import requests
@@ -13,9 +13,9 @@ from flasgger import Swagger
 from flask import Flask, Response, jsonify, request, send_from_directory
 from flask_sock import Sock
 
-from ..base import VannaBase
 from .assets import css_content, html_content, js_content
 from .auth import AuthInterface, NoAuth
+from ..base import VannaBase
 
 
 class Cache(ABC):

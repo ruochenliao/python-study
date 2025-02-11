@@ -1,10 +1,12 @@
 from abc import abstractmethod
-from llama_index.core import VectorStoreIndex, load_index_from_storage, SummaryIndex
+
+from llama_index.core import VectorStoreIndex, load_index_from_storage
 from llama_index.core.indices.base import BaseIndex
 from llama_index.core.node_parser import SentenceSplitter
-from llama_index.core.response_synthesizers import ResponseMode
 from llama_index.core.storage.storage_context import DEFAULT_PERSIST_DIR, StorageContext
 from llama_index.vector_stores.milvus import MilvusVectorStore
+
+
 # pip install llama-index-vector-stores-milvus
 class RAG:
     def __init__(self, files: list[str]):

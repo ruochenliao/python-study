@@ -1,14 +1,15 @@
-import os 
 import json
+import os
 import uuid
 from typing import List, Dict, Any
 
-import faiss
 import numpy as np
 import pandas as pd
 
+import faiss
 from ..base import VannaBase
 from ..exceptions import DependencyError
+
 
 class FAISS(VannaBase):
     def __init__(self, config=None):

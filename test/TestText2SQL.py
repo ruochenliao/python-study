@@ -1,13 +1,25 @@
 # 创建数据连接引擎
+from typing import Dict
+
 from llama_index.core import SQLDatabase, Settings
 from llama_index.core.indices.struct_store import NLSQLTableQueryEngine
 from llama_index.llms.openai import OpenAI
+from llama_index.llms.openai.utils import CHAT_MODELS, ALL_AVAILABLE_MODELS
 from sqlalchemy import create_engine
-from config import embed_model_local_bge_small
 
-llm = OpenAI(api_key="sk-2753fd79ea1143a3af3abc6d4a241c6f",  # 来自与deepseek 的 api_key
-             model="deepseek-chat",
-             api_base="http://127.0.0.1:1234/v1")
+from config import embed_model_local_bge_small
+# 定义Deepseek模型字典，存储模型名和对应的token限制
+DEEPSEEK_MODELS: Dict[str, int] = {
+    "deepseek-v3": 128000
+}
+
+# 更新所有可用模型和聊天模型字典，整合Deepseek模型
+ALL_AVAILABLE_MODELS.update(DEEPSEEK_MODELS)
+CHAT_MODELS.update(DEEPSEEK_MODELS)
+
+llm = OpenAI(api_key="sk-aeb8d69039b14320b0fe58cb8285d8b1",  # 来自与deepseek 的 api_key
+             model="deepseek-v3",
+             api_base="https://dashscope.aliyuncs.com/compatible-mode/v1")
 Settings.llm = llm
 
 Settings.embed_model = embed_model_local_bge_small()

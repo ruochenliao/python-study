@@ -1,6 +1,6 @@
 from xinference_client.client.restful.restful_client import (
-  Client,
-  RESTfulChatModelHandle,
+    Client,
+    RESTfulChatModelHandle,
 )
 
 from ..base import VannaBase

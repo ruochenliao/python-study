@@ -1,7 +1,10 @@
 from typing import List
-from zhipuai import ZhipuAI
+
 from chromadb import Documents, EmbeddingFunction, Embeddings
+from zhipuai import ZhipuAI
+
 from ..base import VannaBase
+
 
 class ZhipuAI_Embeddings(VannaBase):
     """

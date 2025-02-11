@@ -1,8 +1,8 @@
 import uuid
 
-import marqo
 import pandas as pd
 
+import marqo
 from ..base import VannaBase
 
 

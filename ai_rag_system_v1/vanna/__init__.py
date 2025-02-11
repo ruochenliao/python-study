@@ -5,8 +5,8 @@ from dataclasses import dataclass
 from typing import Callable, List, Tuple, Union
 
 import pandas as pd
-import requests
 import plotly.graph_objs
+import requests
 
 from .exceptions import (
     OTPCodeError,

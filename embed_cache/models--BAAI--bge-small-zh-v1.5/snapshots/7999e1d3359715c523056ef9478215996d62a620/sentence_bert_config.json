@@ -1,1 +1,4 @@
-../../blobs/ea85692bff64b0d1917833c31ddbca8ab10f5455
+{
+  "max_seq_length": 512,
+  "do_lower_case": true
+}

@@ -1,14 +1,13 @@
 import re
 
 from llama_index.core import SQLDatabase, StorageContext
-from llama_index.core.indices.base import BaseIndex
 from llama_index.core.indices.struct_store import SQLTableRetrieverQueryEngine
 from llama_index.core.objects import SQLTableSchema, SQLTableNodeMapping, ObjectIndex
 from llama_index.vector_stores.milvus import MilvusVectorStore
 from sqlalchemy import create_engine
 
-from .base_rag import RAG
 from config.config import RagConfig
+from .base_rag import RAG
 
 
 class DatabaseRAG(RAG):

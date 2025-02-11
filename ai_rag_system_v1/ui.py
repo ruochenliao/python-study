@@ -1,9 +1,7 @@
-import os
-from pathlib import Path
+import subprocess
 from typing import Optional, List
 
 import chainlit as cl
-import pandas as pd
 from chainlit.element import ElementBased
 from chainlit.input_widget import Switch
 from chainlit.types import ThreadDict
@@ -11,13 +9,12 @@ from llama_index.core.base.llms.types import ChatMessage
 from llama_index.core.chat_engine import SimpleChatEngine
 from llama_index.core.chat_engine.types import ChatMode
 from llama_index.core.memory import ChatMemoryBuffer
-from pandas import DataFrame
-from pandasai import Agent
 
+import ai_rag_system_v1.utils.utils_ui as cl_utils
 from ai_rag_system_v1.rag.multimodal_rag import MultiModalRAG
 from ai_rag_system_v1.rag.traditional_rag import TraditionalRAG
 from ai_rag_system_v1.utils import settings
-import ai_rag_system_v1.utils.utils_ui as cl_utils
+
 
 async def view_pdf(elements: List[ElementBased]):
     """查看PDF文件"""
@@ -108,7 +105,7 @@ async def chat_profile(current_user: cl.User):
         cl.ChatProfile(
             name="数据库对话",
             markdown_description=f"与数据库对话",
-            icon=f"/public/kbs/db.jpg",
+            icon=f"/public/kbs/1.jpg",
         )
     ]
 
@@ -211,3 +208,10 @@ async def main(message: cl.Message):
 
 user_data = ["admin","nebula"]
 pass
+
+
+
+# 主程序入口
+if __name__ == '__main__':
+    subprocess.run(["chainlit", "run", "ui.py", "-w"])
+

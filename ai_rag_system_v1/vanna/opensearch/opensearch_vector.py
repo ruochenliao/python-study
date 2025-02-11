@@ -4,7 +4,6 @@ from typing import List
 
 import pandas as pd
 from opensearchpy import OpenSearch
-from ..types import TableMetadata
 
 from ..base import VannaBase
 from ..utils import deterministic_uuid
