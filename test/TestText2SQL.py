@@ -16,9 +16,6 @@ engine = create_engine("postgresql://myuser:mypassword@9.135.72.202:5432/chainli
 # 创建数据库操作对象
 sql_database = SQLDatabase(engine)
 
-# print(sql_database.get_usable_table_names())
-# print(sql_database.get_single_table_info("student"))
-
 sql_query_engine = NLSQLTableQueryEngine(
     sql_database=sql_database,
     llm=llm,
