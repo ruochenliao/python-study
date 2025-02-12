@@ -54,18 +54,17 @@ edit_message = true
 
 [UI]
 # Name of the assistant.
-name = "但问智库平台"
+name = "Assistant"
 
 # Description of the assistant. This is used for HTML tags.
-description = "超级人工智能助手"
+# description = ""
 
 # Large size content are by default collapsed for a cleaner ui
 default_collapse_content = true
 
 # Chain of Thought (CoT) display mode. Can be "hidden", "tool_call" or "full".
 cot = "full"
-#cot = "hidden"
-#cot = "tool_call"
+
 # Link to your github repo. This will add a github button in the UI's header.
 # github = ""
 
@@ -119,4 +118,4 @@ cot = "full"
         #secondary = "#BDBDBD"
 
 [meta]
-generated_by = "1.3.1"
+generated_by = "1.3.2"

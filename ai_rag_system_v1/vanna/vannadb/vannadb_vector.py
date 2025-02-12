@@ -8,15 +8,15 @@ import requests
 from ..advanced import VannaAdvanced
 from ..base import VannaBase
 from ..types import (
-  DataFrameJSON,
-  NewOrganization,
-  OrganizationList,
-  Question,
-  QuestionSQLPair,
-  Status,
-  StatusWithId,
-  StringData,
-  TrainingData,
+    DataFrameJSON,
+    NewOrganization,
+    OrganizationList,
+    Question,
+    QuestionSQLPair,
+    Status,
+    StatusWithId,
+    StringData,
+    TrainingData,
 )
 from ..utils import sanitize_model_name
 

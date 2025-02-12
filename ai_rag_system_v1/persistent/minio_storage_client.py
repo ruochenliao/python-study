@@ -1,5 +1,4 @@
 import io
-import os
 from typing import Dict, Union, Any
 
 from chainlit.data.base import BaseStorageClient
@@ -7,6 +6,8 @@ from chainlit.logger import logger
 from minio import Minio
 
 import ai_rag_system_v1.utils.settings as settings
+
+
 class MinioStorageClient(BaseStorageClient):
 
     def __init__(self):

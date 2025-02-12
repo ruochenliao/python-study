@@ -1,4 +1,5 @@
 import os
+
 import fitz
 from llama_index.core import Document
 from llama_index.core.async_utils import run_jobs
@@ -7,6 +8,8 @@ from .base_rag import RAG
 from .utils_rag import (describe_image, process_text_blocks,
                         extract_text_around_item, process_table,
                         convert_ppt_to_pdf, convert_pdf_to_images, extract_text_and_notes_from_ppt, save_uploaded_file)
+
+
 class MultiModalRAG(RAG):
     @staticmethod
     def parse_all_tables(filename, page, pagenum, text_blocks, ongoing_tables):

@@ -2,10 +2,12 @@ import base64
 import os
 import subprocess
 from io import BytesIO
+
 # pip install pymupdf
 import fitz
 from PIL import Image
 from pptx import Presentation
+
 from ai_rag_system_v1.utils import settings
 from .ocr import ocr_to_text_from_llm
 

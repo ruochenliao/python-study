@@ -4,20 +4,21 @@
 # pip install llama-index-embeddings-ollama
 # pip install pymilvus[model]
 """
+import os
 from typing import Dict
 
 from llama_index.llms.openai import OpenAI as LLamaIndexOpenAI
-from pymilvus import model
-from .config import RAGConfig
-
 from llama_index.llms.openai.utils import ALL_AVAILABLE_MODELS, CHAT_MODELS
-from pandasai.llm import OpenAI as PandasAI
 from openai import OpenAI
+from pandasai.llm import OpenAI as PandasAI
 from pandasai.schemas.df_config import Config
+from pymilvus import model
+
+from .config import RAGConfig
 
 configuration = RAGConfig()
 DEEPSEEK_MODELS: Dict[str, int] = {
-    "deepseek-chat": 128000,
+    "deepseek-v3": 128000,
 }
 ALL_AVAILABLE_MODELS.update(DEEPSEEK_MODELS)
 CHAT_MODELS.update(DEEPSEEK_MODELS)
@@ -57,13 +58,22 @@ def pymilvus_bge_small_embedding_function(**kwargs):
     return model.dense.SentenceTransformerEmbeddingFunction(
         model_name='BAAI/bge-small-zh-v1.5',
         device='cpu',  # Specify the device to use, e.g., 'cpu' or 'cuda:0'
-    )
+        cache_folder=cache_folder,
+        **kwargs)
+
+
+current_dir = os.path.abspath(os.path.dirname(__file__))
+# 构建相对路径
+relative_path = os.path.join(current_dir, "..", "..", "embed_cache")
+# 获取绝对路径
+cache_folder = os.path.abspath(relative_path)
 
 
 # 本地模型
 def local_bge_small_embed_model(**kwargs):
     from llama_index.embeddings.huggingface import HuggingFaceEmbedding
     embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-zh-v1.5",
+                                       cache_folder=cache_folder,
                                        **kwargs)
     return embed_model
 
@@ -80,9 +90,9 @@ def ollama_nomic_embed_model(**kwargs):
 
 
 def pymilvus_bge_m3_embedding_function(**kwargs):
-    from pymilvus.model.hybrid import BGEM3EmbeddingFunction
+    from pymilvus import model
 
-    bge_m3_ef = BGEM3EmbeddingFunction(
+    bge_m3_ef = model.hybrid.BGEM3EmbeddingFunction(
         model_name='BAAI/bge-m3',  # Specify the model name
         device='cpu',  # Specify the device to use, e.g., 'cpu' or 'cuda:0'
         use_fp16=False  # Specify whether to use fp16. Set to `False` if `device` is `cpu`.

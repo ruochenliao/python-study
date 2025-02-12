@@ -1,14 +1,14 @@
 import datetime
 import os
 import uuid
-from typing import List, Optional
-from vertexai.language_models import (
-  TextEmbeddingInput,
-  TextEmbeddingModel
-)
+from typing import List
 
 import pandas as pd
 from google.cloud import bigquery
+from vertexai.language_models import (
+    TextEmbeddingInput,
+    TextEmbeddingModel
+)
 
 from ..base import VannaBase
 

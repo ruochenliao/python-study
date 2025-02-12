@@ -4,7 +4,6 @@ import uuid
 from abc import ABC
 from dataclasses import asdict
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
-from literalai.helper import utc_now
 
 import aiofiles
 import aiohttp
@@ -22,6 +21,7 @@ from chainlit.types import (
     ThreadFilter,
 )
 from chainlit.user import PersistedUser, User
+from literalai.helper import utc_now
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine

@@ -1,10 +1,11 @@
-from abc import ABC
+import asyncio
 
 from pymilvus import MilvusClient
-from vanna.milvus import Milvus_VectorStore
-from vanna.openai import OpenAI_Chat
+
 from ai_rag_system_v1.utils import settings
-from ai_rag_system_v1.rag.base_rag import RAG
+from ai_rag_system_v1.vanna.milvus import Milvus_VectorStore
+from ai_rag_system_v1.vanna.openai import OpenAI_Chat
+
 
 class DQuestionMilvus(Milvus_VectorStore, OpenAI_Chat):
     def __init__(self, config=None):
@@ -19,7 +20,7 @@ class DQuestionMilvus(Milvus_VectorStore, OpenAI_Chat):
                       "doc_collection_name": settings.configuration.milvus_collection_doc_name
                       }
         Milvus_VectorStore.__init__(self, config=config)
-        OpenAI_Chat.__init__(self,client=settings.openai_llm(), config=config)
+        OpenAI_Chat.__init__(self, client=settings.openai_llm(), config=config)
 
 
 class SQLiteDatabaseRAG(DQuestionMilvus):
@@ -27,8 +28,10 @@ class SQLiteDatabaseRAG(DQuestionMilvus):
         super().__init__(**kwargs)
         self.kwargs = kwargs
         self.connect_to_sqlite('https://vanna.ai/Chinook.sqlite')
+
     async def load_data(self):
         pass
+
     async def create_index(self, collection_name="default"):
         """
         数据库表的结构化信息训练到向量数据库
@@ -44,6 +47,7 @@ class SQLiteDatabaseRAG(DQuestionMilvus):
         for ddl in df_ddl['sql'].to_list():
             self.train(ddl=ddl)
 
+
 class MySQLDatabaseRAG(DQuestionMilvus):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -53,16 +57,68 @@ class MySQLDatabaseRAG(DQuestionMilvus):
                               user=settings.configuration.mysql_user,
                               password=settings.configuration.mysql_password,
                               port=int(settings.configuration.mysql_port))
+
     async def load_data(self):
         pass
+
     async def create_index(self, collection_name="default"):
-        df_ddl = self.run_sql(f"SELECT * FROM INFORMATION_SCHEMA.COLUMNS where table_schema = '{settings.configuration.mysql_db}'")
+        df_ddl = self.run_sql(
+            f"SELECT * FROM INFORMATION_SCHEMA.COLUMNS where table_schema = '{settings.configuration.mysql_db}'")
         plan = self.get_training_plan_mysql(df_ddl)
         self.train(plan=plan)
 
+
+class PostgresSQLDatabaseRAG(DQuestionMilvus):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.kwargs = kwargs
+        self.connect_to_postgres(host=settings.configuration.pg_host,
+                                 dbname=settings.configuration.pg_db,
+                                 user=settings.configuration.pg_user,
+                                 password=settings.configuration.pg_password,
+                                 port=int(settings.configuration.pg_port))
+
+    async def load_data(self):
+        pass
+
+    async def create_index(self):
+        df_ddl = self.run_sql("""
+                    SELECT * 
+                    FROM INFORMATION_SCHEMA.COLUMNS 
+                    WHERE table_schema NOT IN ('information_schema', 'pg_catalog');
+                """)
+        print("df_ddl", df_ddl)
+        plan = self.get_training_plan_mysql(df_ddl)
+        print("plan", plan)
+        self.train(plan=plan)
+
+
+class StarrocksDatabaseRAG(DQuestionMilvus):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        pass
+
+    async def load_data(self):
+        pass
+
+    async def create_index(self):
+        pass
+
+
+async def main():
+    # 创建PostgresSQLDatabaseRAG实例
+    db_rag = PostgresSQLDatabaseRAG()
+
+    # 调用create_index方法
+    await db_rag.create_index()
+    print("获取训练数据",db_rag.get_training_data())
+    obj = db_rag.ask("每位顾客在各流派上花费了多少？", )
+    print(obj)
+
+
 if __name__ == "__main__":
-    d = SQLiteDatabaseRAG()
-    d.create_index()
+    # d = SQLiteDatabaseRAG()
+    # d.create_index()
     # d = MySQLDatabaseRAG()
     # df_ddl = d.run_sql("SELECT * FROM INFORMATION_SCHEMA.COLUMNS where table_schema = 'student_db'")
     # plan = d.get_training_plan_mysql(df_ddl)
@@ -70,3 +126,4 @@ if __name__ == "__main__":
     # d.milvus_client.drop_collection(collection_name="vannasql")
     # d.milvus_client.drop_collection(collection_name="vannaddl")
     # d.milvus_client.drop_collection(collection_name="vannadoc")
+    asyncio.run(main())
