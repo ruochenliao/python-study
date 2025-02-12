@@ -36,3 +36,9 @@ class RAGConfig(BaseModel):
     mysql_password: str = Field(default=os.getenv("MYSQL_PASSWORD"), description="MySQL password")
     mysql_db: str = Field(default=os.getenv("MYSQL_DB"), description="MySQL database")
     mysql_port: int = Field(default=os.getenv("MYSQL_PORT"), description="MySQL port")
+
+    pg_host: str = Field(default=os.getenv("PG_HOST"), description="PG_HOST")
+    pg_user: str = Field(default=os.getenv("PG_USER"), description="PG_USER")
+    pg_password: str = Field(default=os.getenv("PG_PASSWORD"), description="PG_PASSWORD")
+    pg_db: str = Field(default=os.getenv("PG_DB"), description="PG_DB")
+    pg_port: int = Field(default=os.getenv("PG_PORT"), description="PG_PORT")
