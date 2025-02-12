@@ -33,7 +33,9 @@ def pandasai_llm(**kwargs):
 def deepseek_llm(**kwargs):
     return LLamaIndexOpenAI(model=configuration.llm_model_name, api_key=configuration.llm_api_key,
                             api_base=configuration.llm_api_base, **kwargs)
-
+def deepseek_llm_remote(**kwargs):
+    return LLamaIndexOpenAI(model=configuration.deepseek_api_model, api_key=configuration.deepseek_api_key,
+                            api_base=configuration.deepseek_api_base, **kwargs)
 
 def moonshot_llm(**kwargs):
     return OpenAI(api_key=configuration.moonshot_api_key, base_url="https://api.moonshot.cn/v1", **kwargs)
