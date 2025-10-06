@@ -5,6 +5,8 @@ class Bus:
             self.passengers = []
         else:
             self.passengers = list(passengers)
+    def __str__(self):
+        return f'Bus: {self.passengers}'
 
     def pick(self, name):
         self.passengers.append(name)
@@ -20,4 +22,7 @@ bus2 = copy.copy(bus1)
 print(bus2)
 # 使用深拷贝
 bus3 = copy.deepcopy(bus1)
+print(bus3)
+bus1.drop('Bill')
+print(bus2)
 print(bus3)
